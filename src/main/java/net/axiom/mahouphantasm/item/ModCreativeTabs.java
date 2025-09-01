@@ -1,6 +1,7 @@
 package net.axiom.mahouphantasm.item;
 
 import net.axiom.mahouphantasm.MahouPhantasm;
+import net.axiom.mahouphantasm.block.ModBlocks;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.CreativeModeTab;
@@ -18,6 +19,10 @@ public class ModCreativeTabs {
                     .title(Component.translatable("creativetab.mahouphantasm_tab"))
                     .displayItems((pParameters, pOutput) -> {
                         pOutput.accept(ModItems.DRAGONSLAYER.get());
+
+                        pOutput.accept(ModItems.ADAMANTINE.get());
+
+                        pOutput.accept(ModBlocks.ADAMANTINE_BLOCK.get());
 
 //                        pOutput.accept(ModBlocks.sonuvabitch_BLOCK.get());
                     })

@@ -1,6 +1,7 @@
 package net.axiom.mahouphantasm;
 
 import com.mojang.logging.LogUtils;
+import net.axiom.mahouphantasm.block.ModBlocks;
 import net.axiom.mahouphantasm.item.ModCreativeTabs;
 import net.axiom.mahouphantasm.item.ModItems;
 import net.minecraftforge.api.distmarker.Dist;
@@ -26,8 +27,9 @@ public class MahouPhantasm {
     public MahouPhantasm(FMLJavaModLoadingContext context) {
         IEventBus modEventBus = context.getModEventBus();
 
+        //// Registering mod things
         ModItems.register(modEventBus);
-
+        ModBlocks.register(modEventBus);
         ModCreativeTabs.register(modEventBus);
 
         // Register the commonSetup method for modloading

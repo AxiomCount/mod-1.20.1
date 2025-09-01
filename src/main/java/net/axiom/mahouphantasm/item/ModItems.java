@@ -14,6 +14,9 @@ public class ModItems {
     public static final RegistryObject<Item> DRAGONSLAYER = ITEMS.register("dragonslayer",
             ()-> new Item(new Item.Properties()));
 
+    public static final RegistryObject<Item> ADAMANTINE = ITEMS.register("adamantine",
+            ()-> new Item(new Item.Properties()));
+
     public static void register(IEventBus eventBus) {
         ITEMS.register(eventBus);
     }

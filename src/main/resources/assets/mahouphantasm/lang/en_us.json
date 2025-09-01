@@ -1,7 +1,8 @@
 {
   "item.mahouphantasm.dragonslayer": "Dragon Slayer",
+  "item.mahouphantasm.adamantine": "Adamantine",
 
-  "block.mahouphantasm.blahblah": "blah",
+  "block.mahouphantasm.adamantine_block": "Block of Adamantine",
 
   "creativetab.mahouphantasm_tab": "Mahou Phantasm"
 }
