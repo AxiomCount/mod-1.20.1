@@ -1,6 +1,8 @@
 package net.axiom.mahouphantasm;
 
 import com.mojang.logging.LogUtils;
+import net.axiom.mahouphantasm.item.ModCreativeTabs;
+import net.axiom.mahouphantasm.item.ModItems;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
@@ -24,6 +26,10 @@ public class MahouPhantasm {
     public MahouPhantasm(FMLJavaModLoadingContext context) {
         IEventBus modEventBus = context.getModEventBus();
 
+        ModItems.register(modEventBus);
+
+        ModCreativeTabs.register(modEventBus);
+
         // Register the commonSetup method for modloading
         modEventBus.addListener(this::commonSetup);
 
@@ -34,7 +40,6 @@ public class MahouPhantasm {
         modEventBus.addListener(this::addCreative);
 
         // Register our mod's ForgeConfigSpec so that Forge can create and load the config file for us
-        context.registerConfig(ModConfig.Type.COMMON, Config.SPEC);
     }
 
     private void commonSetup(final FMLCommonSetupEvent event) {
