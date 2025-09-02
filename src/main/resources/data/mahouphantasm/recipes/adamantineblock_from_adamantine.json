@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "###",
+    "###",
+    "###"
+  ],
+  "key": {
+    "#": {
+      "item": "mahouphantasm:adamantine"
+    }
+  },
+  "result": {
+    "item": "mahouphantasm:adamantine_block"
+  }
+}

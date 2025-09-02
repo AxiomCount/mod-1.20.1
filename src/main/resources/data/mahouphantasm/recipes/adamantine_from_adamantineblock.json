@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "mahouphantasm:adamantine_block"
+    }
+  ],
+  "result": {
+    "item": "mahouphantasm:adamantine",
+    "count": 9
+  }
+}
