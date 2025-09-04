@@ -1,9 +1,9 @@
 package net.axiom.mahouphantasm;
 
 import com.mojang.logging.LogUtils;
-import net.axiom.mahouphantasm.block.ModBlocks;
-import net.axiom.mahouphantasm.item.ModCreativeTabs;
-import net.axiom.mahouphantasm.item.ModItems;
+import net.axiom.mahouphantasm.block.MahouBlocks;
+import net.axiom.mahouphantasm.item.MahouCreativeTabs;
+import net.axiom.mahouphantasm.item.MahouItems;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
@@ -11,7 +11,6 @@ import net.minecraftforge.event.server.ServerStartingEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
@@ -28,9 +27,9 @@ public class MahouPhantasm {
         IEventBus modEventBus = context.getModEventBus();
 
         //// Registering mod things
-        ModItems.register(modEventBus);
-        ModBlocks.register(modEventBus);
-        ModCreativeTabs.register(modEventBus);
+        MahouItems.register(modEventBus);
+        MahouBlocks.register(modEventBus);
+        MahouCreativeTabs.register(modEventBus);
 
         // Register the commonSetup method for modloading
         modEventBus.addListener(this::commonSetup);
