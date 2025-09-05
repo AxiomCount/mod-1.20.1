@@ -2,6 +2,7 @@ package net.axiom.mahouphantasm.item;
 
 import io.redspace.ironsspellbooks.api.item.weapons.MagicSwordItem;
 import io.redspace.ironsspellbooks.api.registry.SpellDataRegistryHolder;
+import io.redspace.ironsspellbooks.api.registry.SpellRegistry;
 import net.axiom.mahouphantasm.MahouPhantasm;
 import net.axiom.mahouphantasm.item.custom.DragonSlayerItem;
 import net.axiom.mahouphantasm.item.custom.WaterlooSaberItem;
@@ -16,9 +17,9 @@ public class MahouItems {
             DeferredRegister.create(ForgeRegistries.ITEMS, MahouPhantasm.MOD_ID);
 
     public static final RegistryObject<Item> DRAGONSLAYER = ITEMS.register("dragonslayer",
-            ()-> new DragonSlayerItem(SpellDataRegistryHolder.of()));
+            ()-> new DragonSlayerItem(SpellDataRegistryHolder.of(new SpellDataRegistryHolder(SpellRegistry.GUST_SPELL, 9))));
     public static final RegistryObject<Item> WATERLOOSABER = ITEMS.register("waterloosaber",
-            ()-> new WaterlooSaberItem(SpellDataRegistryHolder.of()));
+            ()-> new WaterlooSaberItem(SpellDataRegistryHolder.of(new SpellDataRegistryHolder(SpellRegistry.FORTIFY_SPELL, 8))));
 
     public static final RegistryObject<Item> ADAMANTINE = ITEMS.register("adamantine",
             ()-> new Item(new Item.Properties()));

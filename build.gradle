@@ -70,6 +70,11 @@ minecraft {
             // "REGISTRYDUMP": For getting the contents of all registries.
             property 'forge.logging.markers', 'REGISTRIES'
 
+            // For Player Animator
+            property 'mixin.env.remapRefMap', 'true'
+            property 'mixin.env.refMapRemappingFile', "${projectDir}/build/createSrgToMcp/output.srg"
+
+
             // Recommended logging level for the console
             // You can set various levels here.
             // Please read: https://stackoverflow.com/questions/2031163/when-to-use-the-different-log-levels
@@ -141,8 +146,10 @@ repositories {
     maven { url = "https://maven.theillusivec4.top" }
     maven { url = "https://cursemaven.com" }
     maven { url = "https://maven.blamejared.com" }
-    maven { url = "https://maven.kosmx.dev/" }
+    maven { url = "https://maven.kosmx.dev/" } // Player Animator
     maven { url = 'https://maven.azuredoom.com/mods'}
+    maven { url "https://maven.shedaniel.me/" } // Cloth Config
+    maven { url 'https://api.modrinth.com/maven' } // Better Combat
 
     // flatDir {
     //     dir 'libs'
@@ -159,7 +166,7 @@ dependencies {
     // Caelus
     runtimeOnly fg.deobf("top.theillusivec4.caelus:caelus-forge:${caelus_version}")
     // Player Animator
-    runtimeOnly fg.deobf("dev.kosmx.player-anim:player-animation-lib-forge:${player_animator_version}")
+    implementation fg.deobf("dev.kosmx.player-anim:player-animation-lib-forge:${player_animator_version}")
     // Curios
     implementation fg.deobf("top.theillusivec4.curios:curios-forge:${curios_version}:api")
     runtimeOnly fg.deobf("top.theillusivec4.curios:curios-forge:${curios_version}")
@@ -167,8 +174,20 @@ dependencies {
     compileOnly fg.deobf("mezz.jei:jei-${jei_mc_version}-common-api:${jei_version}")
     compileOnly fg.deobf("mezz.jei:jei-${jei_mc_version}-forge-api:${jei_version}")
     runtimeOnly fg.deobf("mezz.jei:jei-${jei_mc_version}-forge:${jei_version}")
-    // Mixins (optional)
+
+    // Better Combat
+    implementation fg.deobf("maven.modrinth:better-combat:${better_combat_version}-forge")
+
+    // Cloth Config
+    implementation fg.deobf("me.shedaniel.cloth:cloth-config-forge:${cloth_version}")
+
+    // Mixin
     annotationProcessor "org.spongepowered:mixin:${mixin_version}:processor"
+    // Mixin Extras
+    compileOnly(annotationProcessor("io.github.llamalad7:mixinextras-common:0.5.0"))
+    implementation(jarJar("io.github.llamalad7:mixinextras-forge:0.5.0")) {
+        jarJar.ranged(it, "[0.5.0,)")
+    }
 
 
     //Other
