@@ -19,7 +19,7 @@ public class MahouItems {
     public static final RegistryObject<Item> DRAGONSLAYER = ITEMS.register("dragonslayer",
             ()-> new DragonSlayerItem(SpellDataRegistryHolder.of(new SpellDataRegistryHolder(SpellRegistry.GUST_SPELL, 9))));
     public static final RegistryObject<Item> WATERLOOSABER = ITEMS.register("waterloosaber",
-            ()-> new WaterlooSaberItem(SpellDataRegistryHolder.of(new SpellDataRegistryHolder(SpellRegistry.FORTIFY_SPELL, 8))));
+            ()-> new WaterlooSaberItem(SpellDataRegistryHolder.of(new SpellDataRegistryHolder(SpellRegistry.FORTIFY_SPELL, 9))));
 
     public static final RegistryObject<Item> ADAMANTINE = ITEMS.register("adamantine",
             ()-> new Item(new Item.Properties()));

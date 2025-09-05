@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "  #",
+    "g# ",
+    "hg "
+  ],
+  "key": {
+    "#": {
+      "item": "irons_spellbooks:arcane_salvage"
+    },
+    "h": {
+      "item": "irons_spellbooks:weapon_parts"
+    },
+    "g": {
+      "item": "minecraft:gold_ingot"
+    }
+  },
+  "result": {
+    "item": "mahouphantasm:waterloosaber"
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "#b#",
+    "#b#",
+    " h "
+  ],
+  "key": {
+    "#": {
+      "item": "minecraft:netherite_scrap"
+    },
+    "b": {
+      "item": "minecraft:iron_block"
+    },
+    "h": {
+      "tag": "minecraft:stripped_logs"
+    }
+  },
+  "result": {
+    "item": "mahouphantasm:dragonslayer"
+  }
+}
