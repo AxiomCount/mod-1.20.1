@@ -15,7 +15,7 @@ public class MahouCreativeTabs {
             DeferredRegister.create(Registries.CREATIVE_MODE_TAB, MahouPhantasm.MOD_ID);
 
     public static final RegistryObject<CreativeModeTab> MAHOUPHANTASM_TAB = CREATIVE_MODE_TABS.register("mahouphantasm_tab",
-            () -> CreativeModeTab.builder().icon(() -> new ItemStack(MahouItems.ADAMANTINE.get()))
+            () -> CreativeModeTab.builder().icon(() -> new ItemStack(MahouItems.DRAGONSLAYER.get()))
                     .title(Component.translatable("creativetab.mahouphantasm_tab"))
                     .displayItems((pParameters, pOutput) -> {
                         pOutput.accept(MahouItems.DRAGONSLAYER.get());

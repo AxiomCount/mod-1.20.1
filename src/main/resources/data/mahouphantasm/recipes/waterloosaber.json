@@ -4,7 +4,7 @@
   "pattern": [
     "  #",
     "g# ",
-    "hg "
+    "ho "
   ],
   "key": {
     "#": {
@@ -15,6 +15,9 @@
     },
     "g": {
       "item": "minecraft:gold_ingot"
+    },
+    "o": {
+      "item": "minecraft:gold_nugget"
     }
   },
   "result": {

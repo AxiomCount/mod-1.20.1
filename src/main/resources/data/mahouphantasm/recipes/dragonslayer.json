@@ -14,7 +14,7 @@
       "item": "minecraft:iron_block"
     },
     "h": {
-      "tag": "minecraft:stripped_logs"
+      "tag": "create:vanilla_stripped_logs"
     }
   },
   "result": {
