@@ -118,24 +118,6 @@ minecraft {
 sourceSets.main.resources { srcDir 'src/generated/resources' }
 
 repositories {
-//        maven {
-//            name = "Redspace Spellbooks"
-//            url = 'https://code.redspace.io/releases'
-//        }
-//        maven {
-//            name = "Illusive Soulworks maven"
-//            url = "https://maven.theillusivec4.top/"
-//        }
-//        maven {
-//            name = "KosmX Player Animator"
-//            url = "https://maven.kosmx.dev/"
-//        }
-//        maven {
-//            name = "Cloudsmith Geckolib"
-//            url = "https://dl.cloudsmith.io/public/geckolib3/geckolib/maven/"
-//        }
-
-
     maven {
         name = "Iron's Maven - Release"
         url = "https://code.redspace.io/releases"
