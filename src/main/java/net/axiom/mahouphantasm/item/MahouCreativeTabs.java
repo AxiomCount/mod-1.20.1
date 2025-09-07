@@ -20,10 +20,11 @@ public class MahouCreativeTabs {
                     .displayItems((pParameters, pOutput) -> {
                         pOutput.accept(MahouItems.DRAGONSLAYER.get());
                         pOutput.accept(MahouItems.WATERLOOSABER.get());
+                        pOutput.accept(MahouItems.MIMICRY.get());
 
-                        pOutput.accept(MahouItems.ADAMANTINE.get());
+//                        pOutput.accept(MahouItems.ADAMANTINE.get());
 
-                        pOutput.accept(MahouBlocks.ADAMANTINE_BLOCK.get());
+//                        pOutput.accept(MahouBlocks.ADAMANTINE_BLOCK.get());
 
 //                        pOutput.accept(MahouBlocks.sonuvabitch_BLOCK.get());
                     })

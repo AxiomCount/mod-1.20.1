@@ -5,6 +5,7 @@ import io.redspace.ironsspellbooks.api.registry.SpellDataRegistryHolder;
 import io.redspace.ironsspellbooks.api.registry.SpellRegistry;
 import net.axiom.mahouphantasm.MahouPhantasm;
 import net.axiom.mahouphantasm.item.custom.DragonSlayerItem;
+import net.axiom.mahouphantasm.item.custom.MimicryItem;
 import net.axiom.mahouphantasm.item.custom.WaterlooSaberItem;
 import net.minecraft.world.item.Item;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -20,6 +21,8 @@ public class MahouItems {
             ()-> new DragonSlayerItem(SpellDataRegistryHolder.of(new SpellDataRegistryHolder(SpellRegistry.GUST_SPELL, 9))));
     public static final RegistryObject<Item> WATERLOOSABER = ITEMS.register("waterloosaber",
             ()-> new WaterlooSaberItem(SpellDataRegistryHolder.of(new SpellDataRegistryHolder(SpellRegistry.FORTIFY_SPELL, 9))));
+    public static final RegistryObject<Item> MIMICRY = ITEMS.register("mimicry",
+            ()-> new MimicryItem(SpellDataRegistryHolder.of(new SpellDataRegistryHolder(SpellRegistry.BLOOD_SLASH_SPELL, 5))));
 
     public static final RegistryObject<Item> ADAMANTINE = ITEMS.register("adamantine",
             ()-> new Item(new Item.Properties()));
