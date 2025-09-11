@@ -22,6 +22,7 @@ public class MahouCreativeTabs {
                         pOutput.accept(MahouItems.WATERLOOSABER.get());
                         pOutput.accept(MahouItems.MIMICRY.get());
 
+                        pOutput.accept(MahouItems.MIMICRYPART.get());
 //                        pOutput.accept(MahouItems.ADAMANTINE.get());
 
 //                        pOutput.accept(MahouBlocks.ADAMANTINE_BLOCK.get());

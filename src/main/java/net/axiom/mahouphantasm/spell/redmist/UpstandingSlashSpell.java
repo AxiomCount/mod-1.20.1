@@ -11,7 +11,6 @@ import io.redspace.ironsspellbooks.registries.MobEffectRegistry;
 import io.redspace.ironsspellbooks.registries.SoundRegistry;
 import io.redspace.ironsspellbooks.util.ParticleHelper;
 import net.axiom.mahouphantasm.MahouPhantasm;
-import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
@@ -21,7 +20,6 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.AABB;
-import net.minecraft.sounds.SoundEvents;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
@@ -29,7 +27,7 @@ import java.util.Optional;
 
 @AutoSpellConfig
 public class UpstandingSlashSpell extends AbstractSpell {
-    private static final ResourceLocation SPELL_ID = new ResourceLocation(MahouPhantasm.MOD_ID, "upstandingslash");
+    private static final ResourceLocation SPELL_ID = new ResourceLocation(MahouPhantasm.MOD_ID, "upstanding_slash");
 
 
     @Override
@@ -67,7 +65,7 @@ public class UpstandingSlashSpell extends AbstractSpell {
 
     @Override
     public boolean canBeCraftedBy(Player player) {
-        return false;
+        return true;
     }
 
     @Override
@@ -132,61 +130,61 @@ public class UpstandingSlashSpell extends AbstractSpell {
 
     @Override
     public void onCast(Level level, int spellLevel, LivingEntity caster, CastSource source, MagicData data) {
-        final double LENGTH = 3.0;
-        final double WIDTH = 1.0;
-        final double HEIGHT = 2.0;
+        final double LENGTH = 4.0;
+        final double WIDTH = 1.5;
+        final double HEIGHT = 2.5;
         float damage = getSpellPower(spellLevel, caster);
 
 
         if (!level.isClientSide) {
             Vec3 casterMid = caster.position().add(0, caster.getBbHeight() * 0.5, 0);
             Vec3 forward = caster.getLookAngle().normalize();
-            Vec3 center = casterMid.add(forward.scale(LENGTH / 2.0)); // center of the hitbox
+            Vec3 hitboxCenter = casterMid.add(forward.scale(LENGTH / 2.0)); // center of the hitbox
 
-            // CHANGE 2: устойчивый расчёт right/up — fallback если forward почти вертикален
             Vec3 worldUp = new Vec3(0, 1, 0);
             Vec3 right = forward.cross(worldUp);
-            if (right.lengthSqr() < 1e-6) { // forward ≈ worldUp, выбираем альтернативную опору
+            // if looking precisely up or down use X vec
+            if (right.lengthSqr() < 1e-6) {
                 right = forward.cross(new Vec3(1, 0, 0));
             }
             right = right.normalize();
             Vec3 up = right.cross(forward).normalize();
 
-            // HITBOX Visualisation
-            Vec3[] corners = new Vec3[8];
-            int idx = 0;
-            for (int dx : new int[]{-1, 1}) {
-                for (int dy : new int[]{-1, 1}) {
-                    for (int dz : new int[]{-1, 1}) {
-                        corners[idx++] = center
-                                .add(forward.scale(dx * LENGTH / 2.0))
-                                .add(right.scale(dz * WIDTH / 2.0))
-                                .add(up.scale(dy * HEIGHT / 2.0));
-                    }
-                }
-            }
-            for (Vec3 c : corners) {
-                MagicManager.spawnParticles(level, ParticleHelper.EMBERS,
-                        c.x, c.y, c.z,
-                        5, 0.01, 0.01, 0.01,
-                        0.0, false
-                );
-            }
+//            // HITBOX Visualisation
+//            Vec3[] corners = new Vec3[8];
+//            int idx = 0;
+//            for (int dx : new int[]{-1, 1}) {
+//                for (int dy : new int[]{-1, 1}) {
+//                    for (int dz : new int[]{-1, 1}) {
+//                        corners[idx++] = hitboxCenter
+//                                .add(forward.scale(dx * LENGTH / 2.0))
+//                                .add(right.scale(dz * WIDTH / 2.0))
+//                                .add(up.scale(dy * HEIGHT / 2.0));
+//                    }
+//                }
+//            }
+//            for (Vec3 c : corners) {
+//                MagicManager.spawnParticles(level, ParticleHelper.EMBERS,
+//                        c.x, c.y, c.z,
+//                        5, 0.01, 0.01, 0.01,
+//                        0.0, false
+//                );
+//            }
 
             AABB searchBox = caster.getBoundingBox().inflate(LENGTH*2, HEIGHT*2, LENGTH*2);
-            // aabb visualisation
-            for (double x : new double[]{searchBox.minX, searchBox.maxX}) {
-                for (double y : new double[]{searchBox.minY, searchBox.maxY}) {
-                    for (double z : new double[]{searchBox.minZ, searchBox.maxZ}) {
-                        MagicManager.spawnParticles(level, ParticleHelper.FIERY_SPARKS,
-                                x, y, z,
-                                5,
-                                0.01, 0.01, 0.01,
-                                0.0, false
-                        );
-                    }
-                }
-            }
+//            // aabb visualisation
+//            for (double x : new double[]{searchBox.minX, searchBox.maxX}) {
+//                for (double y : new double[]{searchBox.minY, searchBox.maxY}) {
+//                    for (double z : new double[]{searchBox.minZ, searchBox.maxZ}) {
+//                        MagicManager.spawnParticles(level, ParticleHelper.FIERY_SPARKS,
+//                                x, y, z,
+//                                5,
+//                                0.01, 0.01, 0.01,
+//                                0.0, false
+//                        );
+//                    }
+//                }
+//            }
 
             List<LivingEntity> candidates = level.getEntitiesOfClass(
                     LivingEntity.class,
@@ -198,7 +196,7 @@ public class UpstandingSlashSpell extends AbstractSpell {
                 // (e.getBbHeight() * 0.5)  is a target Y center
                 Vec3 targetPos = e.position().add(0, e.getBbHeight() * 0.5, 0);
 
-                Vec3 rel = targetPos.subtract(center);      // vector from hitbox center to target
+                Vec3 rel = targetPos.subtract(hitboxCenter);      // vector from hitbox center to target
                 double f = rel.dot(forward);                // forward projection
                 double r = rel.dot(right);                  // right projection
                 double u = rel.dot(up);                     // up projection

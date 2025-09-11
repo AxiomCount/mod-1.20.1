@@ -3,11 +3,9 @@
   "item.mahouphantasm.waterloosaber": "Сабля Ватерлоо",
   "item.mahouphantasm.mimicry": "Мимикрия",
 
-  "spell.mahouphantasm.upstandingslash": "Вертикальный Разрез",
+  "item.mahouphantasm.mimicry_part": "Мимикрирующий Кусок",
 
-  "item.mahouphantasm.adamantine": "Адамантий",
-
-  "block.mahouphantasm.adamantine_block": "Адамантиевый блок",
+  "spell.mahouphantasm.upstanding_slash": "Вертикальный Разрез",
 
   "creativetab.mahouphantasm_tab": "Махō Фантазм"
 }

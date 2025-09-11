@@ -22,7 +22,10 @@ public class MahouItems {
     public static final RegistryObject<Item> WATERLOOSABER = ITEMS.register("waterloosaber",
             ()-> new WaterlooSaberItem(SpellDataRegistryHolder.of(new SpellDataRegistryHolder(SpellRegistry.FORTIFY_SPELL, 8))));
     public static final RegistryObject<Item> MIMICRY = ITEMS.register("mimicry",
-            ()-> new MimicryItem(SpellDataRegistryHolder.of(new SpellDataRegistryHolder(MahouSpells.UPSTANDINGSLASH, 1))));
+            ()-> new MimicryItem(SpellDataRegistryHolder.of(new SpellDataRegistryHolder(MahouSpells.UPSTANDINGSLASH, 3))));
+
+    public static final RegistryObject<Item> MIMICRYPART = ITEMS.register("mimicry_part",
+            ()-> new Item(new Item.Properties()));
 
     public static final RegistryObject<Item> ADAMANTINE = ITEMS.register("adamantine",
             ()-> new Item(new Item.Properties()));
