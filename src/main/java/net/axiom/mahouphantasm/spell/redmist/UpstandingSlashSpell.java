@@ -100,25 +100,35 @@ public class UpstandingSlashSpell extends AbstractSpell {
 //    }
 
     @Override
-    public ResourceLocation getSpellResource() { return SPELL_ID; }
+    public ResourceLocation getSpellResource() {
+        return SPELL_ID;
+    }
 
-//    change it to MahouEffects.MANIFESTED later
+    //    change it to MahouEffects.MANIFESTED later
     @Override
     public boolean canBeInterrupted(@Nullable Player player) {
         return player == null || !player.hasEffect(MobEffectRegistry.FORTIFY.get());
-        }
+    }
 
     @Override
-    public Optional<SoundEvent> getCastStartSound() { return Optional.of(SoundRegistry.SCORCH_PREPARE.get()); }
+    public Optional<SoundEvent> getCastStartSound() {
+        return Optional.of(SoundRegistry.SCORCH_PREPARE.get());
+    }
 
     @Override
-    public Optional<SoundEvent> getCastFinishSound() { return Optional.of(SoundRegistry.BLOOD_EXPLOSION.get()); }
+    public Optional<SoundEvent> getCastFinishSound() {
+        return Optional.of(SoundRegistry.BLOOD_EXPLOSION.get());
+    }
 
     @Override
-    public AnimationHolder getCastStartAnimation() { return SpellAnimations.OVERHEAD_MELEE_SWING_ANIMATION; }
+    public AnimationHolder getCastStartAnimation() {
+        return SpellAnimations.OVERHEAD_MELEE_SWING_ANIMATION;
+    }
 
     @Override
-    public AnimationHolder getCastFinishAnimation() { return AnimationHolder.pass(); }
+    public AnimationHolder getCastFinishAnimation() {
+        return AnimationHolder.pass();
+    }
 
     @Override
     public void onCast(Level level, int spellLevel, LivingEntity caster, CastSource source, MagicData data) {
@@ -127,29 +137,34 @@ public class UpstandingSlashSpell extends AbstractSpell {
         final double HEIGHT = 2.0;
         float damage = getSpellPower(spellLevel, caster);
 
-        Vec3 eye = caster.getEyePosition();
-        Vec3 forward = caster.getLookAngle().normalize();
-        Vec3 center = eye.add(forward.scale(LENGTH / 2));
 
         if (!level.isClientSide) {
-            // HITBOX
-            Vec3 right = forward.cross(new Vec3(0, 1, 0)).normalize();
+            Vec3 casterMid = caster.position().add(0, caster.getBbHeight() * 0.5, 0);
+            Vec3 forward = caster.getLookAngle().normalize();
+            Vec3 center = casterMid.add(forward.scale(LENGTH / 2.0)); // center of the hitbox
+
+            // CHANGE 2: устойчивый расчёт right/up — fallback если forward почти вертикален
+            Vec3 worldUp = new Vec3(0, 1, 0);
+            Vec3 right = forward.cross(worldUp);
+            if (right.lengthSqr() < 1e-6) { // forward ≈ worldUp, выбираем альтернативную опору
+                right = forward.cross(new Vec3(1, 0, 0));
+            }
+            right = right.normalize();
             Vec3 up = right.cross(forward).normalize();
 
+            // HITBOX Visualisation
             Vec3[] corners = new Vec3[8];
-            int i = 0;
+            int idx = 0;
             for (int dx : new int[]{-1, 1}) {
                 for (int dy : new int[]{-1, 1}) {
                     for (int dz : new int[]{-1, 1}) {
-                        corners[i++] = center
-                                .add(forward.scale(dx * LENGTH / 2))
-                                .add(right.scale(dz * WIDTH / 2))
-                                .add(up.scale(dy * HEIGHT / 2));
+                        corners[idx++] = center
+                                .add(forward.scale(dx * LENGTH / 2.0))
+                                .add(right.scale(dz * WIDTH / 2.0))
+                                .add(up.scale(dy * HEIGHT / 2.0));
                     }
                 }
             }
-
-            // Hitbox visualisation
             for (Vec3 c : corners) {
                 MagicManager.spawnParticles(level, ParticleHelper.EMBERS,
                         c.x, c.y, c.z,
@@ -158,30 +173,52 @@ public class UpstandingSlashSpell extends AbstractSpell {
                 );
             }
 
-            AABB box = new AABB(
-                    center.x - WIDTH, center.y - WIDTH, center.z - WIDTH,
-                    center.x + WIDTH, center.y + WIDTH, center.z + WIDTH
-            );
+            AABB searchBox = caster.getBoundingBox().inflate(LENGTH*2, HEIGHT*2, LENGTH*2);
+            // aabb visualisation
+            for (double x : new double[]{searchBox.minX, searchBox.maxX}) {
+                for (double y : new double[]{searchBox.minY, searchBox.maxY}) {
+                    for (double z : new double[]{searchBox.minZ, searchBox.maxZ}) {
+                        MagicManager.spawnParticles(level, ParticleHelper.FIERY_SPARKS,
+                                x, y, z,
+                                5,
+                                0.01, 0.01, 0.01,
+                                0.0, false
+                        );
+                    }
+                }
+            }
 
-            List<LivingEntity> targets = level.getEntitiesOfClass(
+            List<LivingEntity> candidates = level.getEntitiesOfClass(
                     LivingEntity.class,
-                    box,
+                    searchBox,
                     e -> e != caster && e.isAlive() && e.isPickable()
             );
 
-            if (!targets.isEmpty()) {
-                LivingEntity target = targets.get(0);
-                target.hurt(level.damageSources().mobAttack(caster), damage);
+            for (LivingEntity e : candidates) {
+                // (e.getBbHeight() * 0.5)  is a target Y center
+                Vec3 targetPos = e.position().add(0, e.getBbHeight() * 0.5, 0);
 
-                MagicManager.spawnParticles(level, ParticleHelper.BLOOD,
-                        target.getX(),
-                        target.getY() + target.getBbHeight() * 0.4,
-                        target.getZ(), 30,
-                        target.getBbWidth() * 0.5,
-                        target.getBbHeight() * 0.5,
-                        target.getBbWidth() * 0.5,
-                        0.03, false
-                );
+                Vec3 rel = targetPos.subtract(center);      // vector from hitbox center to target
+                double f = rel.dot(forward);                // forward projection
+                double r = rel.dot(right);                  // right projection
+                double u = rel.dot(up);                     // up projection
+
+                // in hitbox
+                if (Math.abs(f) <= LENGTH / 2.0 &&
+                        Math.abs(r) <= WIDTH / 2.0 &&
+                        Math.abs(u) <= HEIGHT / 2.0) {
+
+                    e.hurt(level.damageSources().mobAttack(caster), damage);
+                    MagicManager.spawnParticles(level, ParticleHelper.BLOOD,
+                            e.getX(),
+                            e.getY() + e.getBbHeight() * 0.5,
+                            e.getZ(), 30,
+                            e.getBbWidth() * 0.5,
+                            e.getBbHeight() * 0.5,
+                            e.getBbWidth() * 0.5,
+                            0.03, false
+                    );
+                }
             }
         }
     }
