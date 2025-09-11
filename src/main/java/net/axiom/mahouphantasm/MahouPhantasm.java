@@ -4,6 +4,7 @@ import com.mojang.logging.LogUtils;
 import net.axiom.mahouphantasm.block.MahouBlocks;
 import net.axiom.mahouphantasm.item.MahouCreativeTabs;
 import net.axiom.mahouphantasm.item.MahouItems;
+import net.axiom.mahouphantasm.spell.MahouSpells;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
@@ -30,6 +31,7 @@ public class MahouPhantasm {
         MahouItems.register(modEventBus);
         MahouBlocks.register(modEventBus);
         MahouCreativeTabs.register(modEventBus);
+        MahouSpells.register(modEventBus);
 
         // Register the commonSetup method for modloading
         modEventBus.addListener(this::commonSetup);
