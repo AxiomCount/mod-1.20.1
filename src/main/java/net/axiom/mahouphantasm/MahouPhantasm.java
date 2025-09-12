@@ -4,6 +4,7 @@ import com.mojang.logging.LogUtils;
 import net.axiom.mahouphantasm.block.MahouBlocks;
 import net.axiom.mahouphantasm.item.MahouCreativeTabs;
 import net.axiom.mahouphantasm.item.MahouItems;
+import net.axiom.mahouphantasm.registries.MahouSounds;
 import net.axiom.mahouphantasm.spell.MahouSchools;
 import net.axiom.mahouphantasm.spell.MahouSpells;
 import net.minecraft.resources.ResourceLocation;
@@ -36,6 +37,8 @@ public class MahouPhantasm {
         MahouCreativeTabs.register(modEventBus);
         MahouSpells.register(modEventBus);
         MahouSchools.register(modEventBus);
+        MahouSounds.register(modEventBus);
+
 
         // Register the commonSetup method for modloading
         modEventBus.addListener(this::commonSetup);

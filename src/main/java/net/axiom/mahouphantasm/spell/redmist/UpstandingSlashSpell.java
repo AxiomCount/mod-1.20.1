@@ -12,6 +12,7 @@ import io.redspace.ironsspellbooks.registries.MobEffectRegistry;
 import io.redspace.ironsspellbooks.registries.SoundRegistry;
 import io.redspace.ironsspellbooks.util.ParticleHelper;
 import net.axiom.mahouphantasm.MahouPhantasm;
+import net.axiom.mahouphantasm.registries.MahouSounds;
 import net.axiom.mahouphantasm.spell.MahouSchools;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
@@ -115,7 +116,7 @@ public class UpstandingSlashSpell extends AbstractSpell {
 
     @Override
     public Optional<SoundEvent> getCastStartSound() {
-        return Optional.of(SoundRegistry.SCORCH_PREPARE.get());
+        return Optional.of(MahouSounds.DICE.get());
     }
 
     @Override

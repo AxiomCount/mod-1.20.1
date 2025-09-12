@@ -1,0 +1,10 @@
+{
+  "spells.dice": {
+    "sounds": [
+      {
+        "name": "mahouphantasm:spells/dice",
+        "stream": false
+      }
+    ]
+  }
+}
