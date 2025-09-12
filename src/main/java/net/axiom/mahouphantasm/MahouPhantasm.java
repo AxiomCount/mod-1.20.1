@@ -4,7 +4,9 @@ import com.mojang.logging.LogUtils;
 import net.axiom.mahouphantasm.block.MahouBlocks;
 import net.axiom.mahouphantasm.item.MahouCreativeTabs;
 import net.axiom.mahouphantasm.item.MahouItems;
+import net.axiom.mahouphantasm.spell.MahouSchools;
 import net.axiom.mahouphantasm.spell.MahouSpells;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
@@ -15,6 +17,7 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 
 // The value here should match an entry in the META-INF/mods.toml file
@@ -32,6 +35,7 @@ public class MahouPhantasm {
         MahouBlocks.register(modEventBus);
         MahouCreativeTabs.register(modEventBus);
         MahouSpells.register(modEventBus);
+        MahouSchools.register(modEventBus);
 
         // Register the commonSetup method for modloading
         modEventBus.addListener(this::commonSetup);
@@ -67,5 +71,8 @@ public class MahouPhantasm {
         public static void onClientSetup(FMLClientSetupEvent event) {
 
         }
+    }
+    public static ResourceLocation id(@NotNull String path) {
+        return ResourceLocation.fromNamespaceAndPath("mahouphantasm", path);
     }
 }

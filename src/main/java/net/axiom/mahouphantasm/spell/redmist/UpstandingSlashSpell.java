@@ -7,10 +7,12 @@ import io.redspace.ironsspellbooks.api.magic.MagicData;
 import io.redspace.ironsspellbooks.api.util.AnimationHolder;
 import io.redspace.ironsspellbooks.api.util.Utils;
 import io.redspace.ironsspellbooks.capabilities.magic.MagicManager;
+import io.redspace.ironsspellbooks.capabilities.magic.RecastInstance;
 import io.redspace.ironsspellbooks.registries.MobEffectRegistry;
 import io.redspace.ironsspellbooks.registries.SoundRegistry;
 import io.redspace.ironsspellbooks.util.ParticleHelper;
 import net.axiom.mahouphantasm.MahouPhantasm;
+import net.axiom.mahouphantasm.spell.MahouSchools;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
@@ -40,7 +42,7 @@ public class UpstandingSlashSpell extends AbstractSpell {
 
     private final DefaultConfig defaultConfig = new DefaultConfig()
             .setMinRarity(SpellRarity.RARE)
-            .setSchoolResource(SchoolRegistry.BLOOD_RESOURCE)
+            .setSchoolResource(MahouSchools.REDMIST_RESOURCE)
             .setMaxLevel(3)
             .setCooldownSeconds(20)
             .build();
@@ -50,7 +52,7 @@ public class UpstandingSlashSpell extends AbstractSpell {
         this.baseSpellPower = 12;
         this.spellPowerPerLevel = 4;
         this.castTime = 20;
-        this.baseManaCost = 50;
+        this.baseManaCost = 70;
     }
 
     @Override
@@ -109,6 +111,9 @@ public class UpstandingSlashSpell extends AbstractSpell {
     }
 
     @Override
+    public int getRecastCount(int spellLevel, @Nullable LivingEntity entity) { return 2; }
+
+    @Override
     public Optional<SoundEvent> getCastStartSound() {
         return Optional.of(SoundRegistry.SCORCH_PREPARE.get());
     }
@@ -129,7 +134,15 @@ public class UpstandingSlashSpell extends AbstractSpell {
     }
 
     @Override
-    public void onCast(Level level, int spellLevel, LivingEntity caster, CastSource source, MagicData data) {
+    public void onCast(Level level, int spellLevel, LivingEntity caster, CastSource castSource, MagicData playerMagicData) {
+        // Recasts (thanks cataclysm spellbooks dev)
+        if (!playerMagicData.getPlayerRecasts().hasRecastForSpell(getSpellId()))
+        {
+            playerMagicData.getPlayerRecasts().addRecast
+                    (new RecastInstance(getSpellId(), spellLevel, getRecastCount(spellLevel, caster),
+                            60, castSource, null), playerMagicData);
+        }
+
         final double LENGTH = 4.0;
         final double WIDTH = 1.5;
         final double HEIGHT = 2.5;
@@ -150,7 +163,7 @@ public class UpstandingSlashSpell extends AbstractSpell {
             right = right.normalize();
             Vec3 up = right.cross(forward).normalize();
 
-//            // HITBOX Visualisation
+//            // Hitbox visualisation
 //            Vec3[] corners = new Vec3[8];
 //            int idx = 0;
 //            for (int dx : new int[]{-1, 1}) {
@@ -201,7 +214,7 @@ public class UpstandingSlashSpell extends AbstractSpell {
                 double r = rel.dot(right);                  // right projection
                 double u = rel.dot(up);                     // up projection
 
-                // in hitbox
+                // if in hitbox
                 if (Math.abs(f) <= LENGTH / 2.0 &&
                         Math.abs(r) <= WIDTH / 2.0 &&
                         Math.abs(u) <= HEIGHT / 2.0) {

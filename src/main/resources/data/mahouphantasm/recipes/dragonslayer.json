@@ -2,16 +2,18 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "pattern": [
+    " # ",
+    "#b#",
     "#b#",
     "#b#",
     " h "
   ],
   "key": {
     "#": {
-      "item": "minecraft:netherite_ingot"
+      "item": "irons_spellbooks:arcane_salvage"
     },
     "b": {
-      "item": "minecraft:iron_block"
+      "item": "minecraft:netherite_ingot"
     },
     "h": {
       "tag": "create:vanilla_stripped_logs"
